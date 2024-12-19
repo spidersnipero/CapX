@@ -13,7 +13,7 @@ public class Investment {
     private InvestmentId id;
 
     @NonNull
-    private Float boughtPrice;
+    private Double boughtPrice;
 
     @NonNull
     private Integer quantity;
@@ -21,7 +21,7 @@ public class Investment {
     // Constructors
     public Investment() {}
 
-    public Investment(InvestmentId id, Float boughtPrice, Integer quantity) {
+    public Investment(InvestmentId id, Double boughtPrice, Integer quantity) {
         this.id = id;
         this.boughtPrice = boughtPrice;
         this.quantity = quantity;
@@ -36,11 +36,11 @@ public class Investment {
         this.id = id;
     }
 
-    public Float getBoughtPrice() {
+    public Double getBoughtPrice() {
         return boughtPrice;
     }
 
-    public void setBoughtPrice(Float boughtPrice) {
+    public void setBoughtPrice(Double boughtPrice) {
         this.boughtPrice = boughtPrice;
     }
 
