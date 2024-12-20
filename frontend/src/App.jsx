@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard/Dashboard";
 const App = () => {
   return (
-    <div className="dark:bg-gray-800 min-h-screen pt-10">
+    <div className="dark:bg-black min-h-screen pt-10">
       <Navbar />
       <Dashboard />
     </div>

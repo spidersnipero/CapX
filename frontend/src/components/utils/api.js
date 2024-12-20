@@ -44,3 +44,56 @@ export const fetchStockProfile = async (symbol) => {
     console.error(error);
   }
 };
+
+export const addStock = async (stock) => {
+  console.log(stock);
+
+  try {
+    const response = await fetch(`${DB_URL}`, {
+      // Make sure the URL is correct
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(stock),
+    });
+
+    if (response.ok) {
+      return await response.json(); // or handle the response as needed
+    } else {
+      console.error("Failed to add investment", response.statusText);
+      return response;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateStock = async (stock) => {
+  try {
+    const response = await fetch(`${DB_URL}/1/${stock.id.stockSymbol}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(stock),
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteStock = async (stockSymbol) => {
+  try {
+    const response = await fetch(`${DB_URL}/1/${stockSymbol}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

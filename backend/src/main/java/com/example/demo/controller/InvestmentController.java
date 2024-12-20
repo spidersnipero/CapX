@@ -24,6 +24,7 @@ public class InvestmentController {
     // Create a new investment
     @PostMapping
     public ResponseEntity<Investment> createInvestment(@RequestBody Investment investment) {
+        System.out.println(investment.toString());
         try {
             Investment savedInvestment = investmentService.saveInvestment(investment);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedInvestment);
