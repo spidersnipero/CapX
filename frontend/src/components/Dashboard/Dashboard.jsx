@@ -57,24 +57,28 @@ const Dashboard = () => {
   // delete a stock
 
   const addStockToDashboard = async (stock) => {
-    await addStock(stock);
-    console.log(stock);
-    setStockHoldings((prev) => [...prev, stock]);
-    setLoading(true);
-    toggleOverlay();
+    const res = await addStock(stock);
+    // add stock if symbol doesn't exist
+    if (res.ok) {
+      setStockHoldings((prev) => [...prev, stock]);
+      setLoading(true);
+      toggleOverlay();
+    }
   };
 
   const updateStockToDashboard = async (stock) => {
     console.log(stock);
-    await updateStock(stock);
-    setStockHoldings((prev) =>
-      prev.map((s) => {
-        if (s.id.stockSymbol === stock.id.stockSymbol) {
-          return stock;
-        }
-        return s;
-      })
-    );
+    const res = await updateStock(stock);
+    if (!res.ok) {
+      setStockHoldings((prev) =>
+        prev.map((s) => {
+          if (s.id.stockSymbol === stock.id.stockSymbol) {
+            return stock;
+          }
+          return s;
+        })
+      );
+    }
     setLoading(true);
     toggleOverlay();
     setEditStock(null);

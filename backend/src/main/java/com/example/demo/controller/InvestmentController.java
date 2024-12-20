@@ -26,6 +26,13 @@ public class InvestmentController {
     public ResponseEntity<Investment> createInvestment(@RequestBody Investment investment) {
         System.out.println(investment.toString());
         try {
+            Investment investmentExist = investmentService.getInvestment(investment.getId().getUserId(), investment.getId().getStockSymbol());
+        if (investmentExist != null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Company already exists for userId: " + investment.getId().getUserId() + " and stockSymbol: " + investment.getId().getStockSymbol()
+            );
+        }
             Investment savedInvestment = investmentService.saveInvestment(investment);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedInvestment);
         } catch (Exception e) {

@@ -46,8 +46,6 @@ export const fetchStockProfile = async (symbol) => {
 };
 
 export const addStock = async (stock) => {
-  console.log(stock);
-
   try {
     const response = await fetch(`${DB_URL}`, {
       // Make sure the URL is correct
@@ -60,6 +58,9 @@ export const addStock = async (stock) => {
 
     if (response.ok) {
       return await response.json(); // or handle the response as needed
+    } else if (response.status === 400) {
+      alert("Stock already exists in the portfolio");
+      return response;
     } else {
       console.error("Failed to add investment", response.statusText);
       return response;
@@ -78,8 +79,17 @@ export const updateStock = async (stock) => {
       },
       body: JSON.stringify(stock),
     });
-    return response;
+    if (response.ok) {
+      return await response.json();
+    } else if (response.status === 400) {
+      alert("Stock does not exist in the portfolio");
+      return response;
+    } else {
+      console.error("Failed to update investment", response.statusText);
+      return response;
+    }
   } catch (error) {
+    alert("Failed to update investment");
     console.error(error);
   }
 };
