@@ -24,12 +24,12 @@ https://cap-x-theta.vercel.app/
 
 ### Tech Stack
 
-Frontend: React with vite,Tailwind CSS.
-Backend: Spring Boot.
-Database: PostgreSQL.
-API Integration: Finnhub API for real-time stock data.
-Deployment: AWS EC2,Vercel.
-SSL: Keytool for SSL configuration.
+1. Frontend: React with vite,Tailwind CSS.
+2. Backend: Spring Boot.
+3. Database: PostgreSQL.
+4. API Integration: Finnhub API for real-time stock data.
+5. Deployment: AWS EC2,Vercel.
+6. SSL: Keytool for SSL configuration.
 
 ### Prerequisites
 
