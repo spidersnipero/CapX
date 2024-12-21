@@ -145,13 +145,12 @@ const Dashboard = () => {
           return stock;
         })
       );
-      // update currentValue
+
+      // Update current value
       const newCurrentValue = updatedStocks.reduce((acc, stock, index) => {
         const updatedStock = stockHoldings[index];
         return acc + updatedStock.quantity * stock.c;
       }, 0);
-
-      // Update the current value state with the newly calculated value
       setCurrentValue(newCurrentValue);
 
       const currentStocksMap = {};
@@ -161,10 +160,23 @@ const Dashboard = () => {
         currentStocksMap[stockSymbol] = stock;
       });
       setCurrentStocks(currentStocksMap);
+
+      // Calculate profit for each stock and sort holdings by profit
+      const sortedStockHoldings = [...stockHoldings].sort((a, b) => {
+        const aCurrentPrice = currentStocks[a.id.stockSymbol]?.c || 0;
+        const bCurrentPrice = currentStocks[b.id.stockSymbol]?.c || 0;
+
+        const aProfit = aCurrentPrice * a.quantity - a.boughtPrice * a.quantity;
+        const bProfit = bCurrentPrice * b.quantity - b.boughtPrice * b.quantity;
+
+        return bProfit - aProfit; // Sort by profit descending
+      });
+
+      setStockHoldings(sortedStockHoldings);
     }, 10000);
 
     return () => clearInterval(interval);
-  }, [stockHoldings]);
+  }, [stockHoldings, currentStocks]);
 
   if (loading) {
     return (
