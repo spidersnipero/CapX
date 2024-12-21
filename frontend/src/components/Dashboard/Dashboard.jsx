@@ -30,6 +30,9 @@ const Dashboard = () => {
     const data = await fetchStockHoldings();
     setStockHoldings(data);
     console.log(data);
+    if (data.length === 0) {
+      setLoading(false);
+    }
   };
   // Fetch stock profiles
   const getStocksProfiles = async () => {
