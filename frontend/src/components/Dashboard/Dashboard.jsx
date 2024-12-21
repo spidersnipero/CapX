@@ -208,6 +208,7 @@ const Dashboard = () => {
         <hr className="my-5" />
         <div>
           {/* Table for stock holdings */}
+
           <table className="min-w-full table-auto">
             <thead>
               <tr className="text-left">

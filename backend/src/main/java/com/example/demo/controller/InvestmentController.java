@@ -44,9 +44,6 @@ public class InvestmentController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Investment>> getInvestmentsByUser(@PathVariable Long userId) {
         List<Investment> investments = investmentService.getInvestmentsByUserId(userId);
-        if (investments.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No investments found for userId: " + userId);
-        }
         return ResponseEntity.ok(investments);
     }
 
