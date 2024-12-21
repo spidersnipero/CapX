@@ -55,18 +55,16 @@ https://cap-x-theta.vercel.app/
 4. generate keytool :
    keytool -genkeypair -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore mykeystore.p12 -validity 3650
    and enter details
-5. clone reposoitory:
-   git clone https://github.com/spidersnipero/CapX.git
-6. copy key to resources folder :
+5. copy key to resources folder :
    cp mykeystore.p12 CapX/backend/src/main/resources
-7. run the backend even after closing the terminal:
+6. run the backend even after closing the terminal:
    1. sudo apt install tmux
    2. tmux new -s capx-session
    3. mvn spring-boot:run
    4. Detach from the `tmux` session by pressing `Ctrl + B`, then releasing both keys and pressing `D`.
    5. To reattach to the session later:tmux attach -t capx-session
    6. exit from the session: exit
-8. Access the backend at https://ec2ipaddress:8433/api/investement.
+7. Access the backend at https://ec2ipaddress:8433/api/investement.
 
 #### Running the Frontend
 
