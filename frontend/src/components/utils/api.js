@@ -1,6 +1,6 @@
 const FINNCLUB_BASE_URL = "https://finnhub.io/api/v1/";
 const FINNCLUB_TOKEN = "cthgm31r01qtho2pfrtgcthgm31r01qtho2pfru0";
-const DB_URL = "http://localhost:8080/api/investments";
+const DB_URL = "http://13.200.246.131:8080/api/investments";
 
 /**
  * Fetch all stock holdings from the backend for a user.
