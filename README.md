@@ -78,9 +78,8 @@ https://cap-x-theta.vercel.app/
 
 ### Limitaion of the project
 
-We are using free tier of finnhub api which has a limit of 60 requests per minute.
-So, if the limit is reached the stock data will not be updated.
-We can only add stocks that are available in the finnhub api.
+1. We are using free tier of finnhub api which has a limit of 60 requests per minute.So, if the limit is reached the stock data will not be updated.
+2. We can only add stocks that are available in the finnhub api.
 
 ### API Endpoints
 
