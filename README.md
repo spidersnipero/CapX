@@ -1,4 +1,4 @@
-## Stock Portfolio Dashboard
+## Stock Portfolio Dashboard For Capx
 
 This is a full-stack service for managing stock investments. The frontend is built using React and Tailwind. The backend is built with Spring Boot and PostgreSQL, and it integrates with Finnhub API for real-time stock updates.
 
