@@ -33,10 +33,10 @@ https://cap-x-theta.vercel.app/
 
 ### Prerequisites
 
-Java 17 (or newer)
-Maven (for building the Spring Boot project)
-PostgreSQL (for database setup)
-AWS EC2 (for deployment)
+1. Java 17 (or newer)
+2. Maven (for building the Spring Boot project)
+3. PostgreSQL (for database setup)
+4. AWS EC2 (for deployment)
 
 ### Set up your development environment
 
