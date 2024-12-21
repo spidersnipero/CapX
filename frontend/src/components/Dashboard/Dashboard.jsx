@@ -7,14 +7,19 @@ import {
 import StockForm from "./StockForm";
 import { deleteStock, addStock, updateStock } from "../utils/api";
 import loadingSVG from "../../assets/loading.svg";
+import ConfirmationModal from "./ConfirmationModal";
 
 const Dashboard = () => {
   const [stockHoldings, setStockHoldings] = useState([]);
   const [stocksProfiles, setStocksProfiles] = useState({});
   const [currentStocks, setCurrentStocks] = useState({});
-  const [currentValue, setCurrentValue] = useState(7970);
+  const [currentValue, setCurrentValue] = useState(0);
   const [editStock, setEditStock] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // model for delete
+  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+  const [stockToDelete, setStockToDelete] = useState(null);
 
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
 
@@ -62,11 +67,14 @@ const Dashboard = () => {
   const addStockToDashboard = async (stock) => {
     const res = await addStock(stock);
     // add stock if symbol doesn't exist
-    if (res.ok) {
-      setStockHoldings((prev) => [...prev, stock]);
-      setLoading(true);
-      toggleOverlay();
+    console.log(res);
+
+    if (res?.ok === false) {
+      return;
     }
+    setStockHoldings((prev) => [...prev, stock]);
+    setLoading(true);
+    toggleOverlay();
   };
 
   const updateStockToDashboard = async (stock) => {
@@ -87,11 +95,25 @@ const Dashboard = () => {
     setEditStock(null);
   };
 
-  const deleteStockFromDashboard = async (stockSymbol) => {
-    await deleteStock(stockSymbol);
-    setStockHoldings((prev) =>
-      prev.filter((stock) => stock.id.stockSymbol !== stockSymbol)
-    );
+  const handleDeleteClick = (stockSymbol) => {
+    setStockToDelete(stockSymbol);
+    setIsConfirmModalVisible(true); // Show confirmation modal
+  };
+
+  const handleConfirmDelete = async () => {
+    if (stockToDelete) {
+      await deleteStock(stockToDelete);
+      setStockHoldings((prev) =>
+        prev.filter((stock) => stock.id.stockSymbol !== stockToDelete)
+      );
+    }
+    setIsConfirmModalVisible(false); // Close the modal after deletion
+    setStockToDelete(null); // Reset the stockToDelete state
+  };
+
+  const handleCancelDelete = () => {
+    setIsConfirmModalVisible(false); // Close the modal without deleting
+    setStockToDelete(null); // Reset the stockToDelete state
   };
 
   const editStockInDashboard = (stock) => {
@@ -158,6 +180,13 @@ const Dashboard = () => {
 
   return (
     <div className="container mx-auto mt-10">
+      {isConfirmModalVisible && (
+        <ConfirmationModal
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
+      )}
+
       <div className="flex flex-row justify-between">
         <h2 className="text-3xl font-sans dark:text-slate-100">Dashboard</h2>
         <div className="relative">
@@ -199,7 +228,7 @@ const Dashboard = () => {
       <div className="border-2 rounded-2xl p-10 mt-5 dark:text-white">
         <div className="flex justify-around">
           <div className="flex flex-col">
-            <p className="text-2xl">{`$${getInvestedValue()}`}</p>
+            <p className="text-2xl">{`$${getInvestedValue().toFixed(2)}`}</p>
             <p>Invested Value</p>
           </div>
           <div className="flex flex-col">
@@ -211,59 +240,65 @@ const Dashboard = () => {
         <hr className="my-5" />
         <div>
           {/* Table for stock holdings */}
-
-          <table className="min-w-full table-auto">
-            <thead>
-              <tr className="text-left">
-                <th className="font-bold py-2 px-4">Company Name</th>
-                <th className="font-bold py-2 px-4">Symbol</th>
-                <th className="font-bold py-2 px-4">Bought Price</th>
-                <th className="font-bold py-2 px-4">Current Price</th>
-                <th className="font-bold py-2 px-4">Quantity</th>
-                <th className="font-bold py-2 px-4">Total Investment</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stockHoldings.map((stock, index) => (
-                <tr key={index} className="border-t my-10">
-                  <td className="py-2 px-4 flex flex-row justify-between">
-                    {stocksProfiles[stock.id.stockSymbol].name + " "}
-                    <button
-                      onClick={() => editStockInDashboard(stock)}
-                      className="text-orange-300 pr-3"
-                    >
-                      edit
-                    </button>
-                  </td>
-                  <td className="py-2 px-4">{stock.id.stockSymbol}</td>
-                  <td className="py-2 px-4">{stock.boughtPrice}</td>
-                  <td className="py-2 px-4">
-                    ${currentStocks[stock.id.stockSymbol]?.c || "Loading..."}
-                  </td>
-                  <td className="py-2 px-4">{stock.quantity}</td>
-                  <td className="py-2 px-4">
-                    <div className="flex flex-row justify-between">
-                      <p>
-                        $
-                        {(
-                          stock.quantity *
-                          (currentStocks[stock.id.stockSymbol]?.c || 0)
-                        ).toFixed(2)}
-                      </p>
-                      <button
-                        onClick={() =>
-                          deleteStockFromDashboard(stock.id.stockSymbol)
-                        }
-                        className="bg-red-400 text-white px-2 py-1 rounded-full"
-                      >
-                        delete
-                      </button>
-                    </div>
-                  </td>
+          {stockHoldings.length === 0 ? (
+            <p className="text-center">No stocks in your portfolio</p>
+          ) : (
+            <table className="min-w-full table-auto">
+              <thead>
+                <tr className="text-left">
+                  <th className="font-bold py-2 px-4">Company Name</th>
+                  <th className="font-bold py-2 px-4">Symbol</th>
+                  <th className="font-bold py-2 px-4">Bought Price</th>
+                  <th className="font-bold py-2 px-4">Current Price</th>
+                  <th className="font-bold py-2 px-4">Quantity</th>
+                  <th className="font-bold py-2 px-4">Total Investment</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {stockHoldings
+                  .filter((stock) => stock !== undefined)
+                  .map((stock, index) => (
+                    <tr key={index} className="border-t my-10">
+                      <td className="py-2 px-4 flex flex-row justify-between">
+                        {stocksProfiles[stock.id.stockSymbol]?.name ||
+                          "INVALID COMPANY" + " "}
+                        <button
+                          onClick={() => editStockInDashboard(stock)}
+                          className="text-orange-300 pr-3"
+                        >
+                          edit
+                        </button>
+                      </td>
+                      <td className="py-2 px-4">{stock.id.stockSymbol}</td>
+                      <td className="py-2 px-4">{stock.boughtPrice}</td>
+                      <td className="py-2 px-4">
+                        ${currentStocks[stock.id.stockSymbol]?.c || "0"}
+                      </td>
+                      <td className="py-2 px-4">{stock.quantity}</td>
+                      <td className="py-2 px-4">
+                        <div className="flex flex-row justify-between">
+                          <p>
+                            $
+                            {(
+                              stock.quantity *
+                              (currentStocks[stock.id.stockSymbol]?.c || 0)
+                            ).toFixed(2)}
+                          </p>
+                          <button
+                            onClick={() =>
+                              handleDeleteClick(stock.id.stockSymbol)
+                            }
+                            className="bg-red-400 text-white px-2 py-1 rounded-full"
+                          >
+                            delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

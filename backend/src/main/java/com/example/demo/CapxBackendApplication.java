@@ -37,11 +37,11 @@ public class CapxBackendApplication {
 			if (investmentDao.count() < 5) {
 				investmentDao.deleteAll();
 				List<Investment> investments = List.of(
-					new Investment(new InvestmentId(1L, "AAPL"), 145.0, 1),
-					new Investment(new InvestmentId(1L, "GOOGL"), 2800.0, 1),
-					new Investment(new InvestmentId(1L, "MSFT"), 330.0, 1),
-					new Investment(new InvestmentId(1L, "AMZN"), 3500.0, 1),
-					new Investment(new InvestmentId(1L, "TSLA"), 1200.0, 1)
+					new Investment(new InvestmentId(1L, "AAPL"), 200.5, 1),
+					new Investment(new InvestmentId(1L, "GOOGL"), 270.3, 1),
+					new Investment(new InvestmentId(1L, "MSFT"), 482.35, 1),
+					new Investment(new InvestmentId(1L, "AMZN"), 180.0, 1),
+					new Investment(new InvestmentId(1L, "TSLA"), 352.2, 1)
 				);
 
 				investmentDao.saveAll(investments);
