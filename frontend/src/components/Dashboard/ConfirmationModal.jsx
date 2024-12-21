@@ -10,7 +10,7 @@ const ConfirmationModal = ({ onConfirm, onCancel }) => (
       onClick={(e) => e.stopPropagation()} // Prevent closing the modal when clicking inside
     >
       <div className="text-center">
-        <h3 className="text-xl font-semibold">
+        <h3 className="text-xl font-semibold dark:text-white">
           Are you sure you want to delete this stock?
         </h3>
         <div className="mt-4">
