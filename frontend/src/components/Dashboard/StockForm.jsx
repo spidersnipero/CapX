@@ -9,7 +9,6 @@ const StockForm = ({ addStock, updateStock, editStock }) => {
 
   useEffect(() => {
     if (editStock) {
-      console.log(editStock);
       setFormData({
         stockSymbol: editStock.id.stockSymbol,
         boughtPrice: editStock.boughtPrice.toString(),

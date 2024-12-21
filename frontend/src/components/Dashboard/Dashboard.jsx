@@ -34,7 +34,6 @@ const Dashboard = () => {
   const getStockHoldings = async () => {
     const data = await fetchStockHoldings();
     setStockHoldings(data);
-    console.log(data);
     if (data.length === 0) {
       setLoading(false);
     }
@@ -52,7 +51,6 @@ const Dashboard = () => {
     data.map((stock) => {
       stockProfilesMap[stock.ticker] = stock;
     });
-    console.log(stockProfilesMap);
     setStocksProfiles(stockProfilesMap);
     setLoading(false);
   };
@@ -67,7 +65,6 @@ const Dashboard = () => {
   const addStockToDashboard = async (stock) => {
     const res = await addStock(stock);
     // add stock if symbol doesn't exist
-    console.log(res);
 
     if (res?.ok === false) {
       return;
@@ -78,7 +75,6 @@ const Dashboard = () => {
   };
 
   const updateStockToDashboard = async (stock) => {
-    console.log(stock);
     const res = await updateStock(stock);
     if (!res.ok) {
       setStockHoldings((prev) =>
