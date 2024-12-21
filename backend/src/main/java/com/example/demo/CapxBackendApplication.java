@@ -34,8 +34,9 @@ public class CapxBackendApplication {
                 System.out.println("Users 'Jhon' exist in the database. No new user added.");
             }
 			// 
-			if (investmentDao.count() < 5) {
-				investmentDao.deleteAll();
+            investmentDao.deleteAll();
+
+				
 				List<Investment> investments = List.of(
 					new Investment(new InvestmentId(1L, "AAPL"), 200.5, 1),
 					new Investment(new InvestmentId(1L, "GOOGL"), 270.3, 1),
@@ -46,9 +47,7 @@ public class CapxBackendApplication {
 
 				investmentDao.saveAll(investments);
 				System.out.println("Investments with bought prices have been added to the database.");
-			}else {
-				System.out.println("Investments already exist in the database. No new investments added.");
-			}
+
 
         };
     }
